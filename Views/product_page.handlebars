@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="/css/product_page.css">
+
+<div class="product_wrapper">
+    {{#if onsale}}
+    <span class="best">Best Seller</span>
+    {{/if}}
+    <div class="product__img">
+        <img src="{{image}}" alt="{{title}}">
+    </div>
+    <div class="product__nav">
+        <h3 class="product__nav__title">{{title}}</h3>
+        <p class="product__nav__desc">{{discription}}</p>
+    </div>
+    <div class="product__nav__price">
+        {{#if onsale}}
+        <p class="original">Original Price</p>
+        <p class="product__nav__price_x">CAD $ {{price}}</p>
+        <p class="currentPrice">Currnent Price</p>
+        <p class="product__nav__sale">CAD $ {{sale_price}}</p>
+        {{else}}
+        <p class="currentPrice">Currnent Price</p>
+        <p class="product__nav__sale">CAD $ {{price}}</p>
+        {{/if}}
+    </div>
+    <div class="buttons"><button>Buy Right Now</button><button>Go Cart</button></div>
+
+</div>
+<div class="nav_items">
+    <div class="nav_items_category">
+        <p class="nav_items_title">Category</p>
+        <div class="nav_category">
+            {{#each nav_items}}
+            <a href="/products/{{this.subcategory}}">
+                <p class="nav_categroy_list">{{this.subcategory}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</div>

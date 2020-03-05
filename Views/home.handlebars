@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="/css/home.css">
+
+<div class="nav_items">
+    <div class="nav_items_category">
+        <p class="nav_items_title">Category</p>
+        {{#each nav_items}}
+        <a href="/products/{{this.subcategory}}">
+            <p>{{this.subcategory}}</p>
+        </a>
+        {{/each}}
+    </div>
+</div>
+<div class="home_wrapper">
+    <a href="/products/promotion">
+        <div class="promotion">
+            <p>{{promotion}}</p>
+        </div>
+    </a>
+    <p class="section_header">Category</p>
+    <div class="img_category">
+        {{#each img_category}}
+        <a class="category__link" href="/products/{{this.subcategory}}">
+            <div class="img_category_item">
+                <p class="category__header">{{this.subcategory}}</p>
+                <img class="category__img" src="{{this.image}}" alt="{{this.title}}">
+            </div>
+        </a>
+
+        {{/each}}
+    </div>
+    <p class="section_header">Best Seller</p>
+    <div class="bestSeller">
+        {{#each best}}
+        <div class="bestSeller_item">
+            <a href="/product/{{this.id}}"><img class="bestSeller_item__img" src="{{this.image}}"
+                    alt="{{this.title}}"></a>
+        </div>
+        {{/each}}
+    </div>
+
+</div>

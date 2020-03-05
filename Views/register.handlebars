@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="/css/register.css">
+
+    <form class="register_wrapper" action="/register" method="post">
+        <h1 class="register_title">Create account</h1>
+        
+            <label for="name">Name</label>
+            <input type="text" value="{{name}}" name="name" id="">  
+            <p class="error">{{errorName}}</p>
+        
+            <label for="email">Email</label>
+            <input type="text" value="{{email}}" name="email">  
+            <p class="error">{{errorEmail}}</p>
+        
+            <label for="password">Password</label>
+            <input type="password" value="{{password}}" name="password">  
+            <p class="error">{{errorPasswd}}</p>
+        
+            <label for="password_confirm">Password again</label>
+            <input type="password" value="{{password_confirm}}" name="password_confirm">  
+            <p class="error">{{errorConfirm}}</p>
+
+        <button type="submit">Create your E-Market account</button>
+    </form>

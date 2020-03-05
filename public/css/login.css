@@ -1,0 +1,109 @@
+.login_wrapper_form {
+  display: grid;
+
+  align-self: center;
+  grid-template-columns: 140px 1fr 1fr;
+  grid-template-rows: 80px 60px 60px 60px 60px;
+}
+main {
+  display: flex;
+  justify-content: center;
+}
+.login_wrapper {
+  display: flex;
+  height: 48vh;
+  margin-top: 5vh;
+  min-height: 400px;
+  width: 70%;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  background-color: rgba(114, 162, 218, 0.6);
+  border-radius: 10px;
+  position: relative;
+}
+.login_title {
+  grid-column-start: 1;
+  grid-column-end: -1;
+  font-size: 2.3em;
+}
+.login_wrapper_form > label {
+  grid-column-start: 1;
+
+  align-self: center;
+  font-size: 1.2em;
+}
+.login_wrapper_form > input {
+  border-radius: 10px;
+  height: 25px;
+  min-width: 230px;
+  align-self: center;
+}
+
+.login_wrapper_form > button {
+  grid-column-start: 2;
+  justify-self: center;
+  margin-top: 15px;
+  width: 270px;
+  height: 25px;
+  border-radius: 10px;
+  background-color: rgba(56, 124, 219, 0.39);
+}
+.newsection {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  right: 30px;
+}
+.newsection button {
+  display: block;
+  width: 270px;
+  height: 25px;
+  border-radius: 10px;
+  min-width: 190px;
+  background-color: rgba(243, 195, 63, 0.39);
+  margin: 15px auto;
+}
+.newsection p {
+  border-top: 2px dotted gray;
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
+}
+.error {
+  align-self: center;
+  margin-left: 15px;
+  color: rgb(243, 120, 63);
+  padding: 10px;
+  border-radius: 7px;
+}
+
+@media only screen and (max-width: 815px) {
+  .login_wrapper_form {
+    grid-template-columns: 140px 2fr 1fr;
+    grid-template-rows: 80px 40px 40px 40px 40px;
+  }
+  .error {
+    grid-column: 2 / -1;
+    margin-top: -20px;
+    padding: 0;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .login_wrapper_form {
+    grid-template-columns: 1fr;
+    grid-template-rows: 80px 30px 30px 30px 30px 30px 30px;
+  }
+  .error {
+    grid-column: 1 / -1;
+    margin-top: 0px;
+    padding: 0;
+  }
+  .newsection button {
+    grid-column-start: 1;
+  }
+  .login_wrapper_form > button {
+    grid-column-start: 1;
+    margin-bottom: 30px;
+  }
+}

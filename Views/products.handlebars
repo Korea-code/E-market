@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="/css/product.css">
+<div class="nav_items">
+    <div class="nav_items_category">
+        <p class="nav_items_title">Category</p>
+        <div class="nav_category">
+            {{#each nav_items}}
+            <a href="/products/{{this.subcategory}}">
+                <p class="nav_categroy_list">{{this.subcategory}}</p>
+            </a>
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+<div class="products_wrapper">
+    {{#each products}}
+    <a id="product" href="/product/{{this.id}}">
+        <div class="product" style="background-image:url({{this.image}})">
+            <p class="product__title">{{this.title}}</p>
+            {{#if this.onSale}}
+            <p><span class="product__price_x">$ {{this.price}}</span><span class="product__price_x_span"> ON
+                    SALE</span></p>
+            {{else}}
+            <p class="product__price">$ {{this.price}}</p>
+            {{/if}}
+        </div>
+    </a>
+    {{/each}}
+</div>
