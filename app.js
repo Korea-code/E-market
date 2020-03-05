@@ -2,10 +2,6 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 
-const generalController = require("./Controllers/general");
-const productController = require("./Controllers/product");
-const productsController = require("./Controllers/products");
-
 const app = express();
 
 require("dotenv").config({ path: "./config/keys.env" });
@@ -16,11 +12,15 @@ app.set("view engine", "handlebars");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 
+const generalController = require("./Controllers/general");
+const productController = require("./Controllers/product");
+const productsController = require("./Controllers/products");
+
 app.use("/", generalController);
 app.use("/product", productController);
 app.use("/products", productsController);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server is connected!!!!!!! on ${PORT}`);
