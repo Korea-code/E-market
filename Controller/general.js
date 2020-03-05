@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const productModel = require("../model/productDB");
+const sgMail = require("@sendgrid/mail");
 
 //check empty object
 function isEmpty(obj) {
@@ -35,12 +36,12 @@ router.get("/", (req, res) => {
 
 router.post("/register", (req, res) => {
   let errorMess = {};
-  if (req.body.name == "") errorMess.name = "Enter your name";
-  if (req.body.email == "") errorMess.email = "Enter your Email";
-  else if (req.body.email.search("@") == -1)
-    errorMess.email = "Enter Email format";
-  if (req.body.password == "") errorMess.password = "Enter your password";
-  if (req.body.password != req.body.password_confirm)
+  const { name, email, password, password_confirm } = req.body;
+  if (name == "") errorMess.name = "Enter your name";
+  if (email == "") errorMess.email = "Enter your Email";
+  else if (email.search("@") == -1) errorMess.email = "Enter Email format";
+  if (password == "") errorMess.password = "Enter your password";
+  if (password != password_confirm)
     errorMess.password_confirm = "Enter password correctly";
   if (isEmpty(errorMess)) {
     const temp_category = [],
@@ -54,13 +55,21 @@ router.post("/register", (req, res) => {
         if (e.subcategory == temp_category[i].subcategory) check = false;
       if (check) temp_category.push(e);
     });
-    res.render("home", {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+      to: `${email}`,
+      from: "jihyo.kim@outlook.com",
+      subject: "Wellcome to join E-market!",
+      text: "and easy to do anywhere, even with Node.js",
+      html: `<string>Hello ${name}</string>, Thanks to join our website.<br>
+      Now we are 10% sale promotion on a lot of products,<br>
+      please enjoy shopping in our website.`
+    };
+    sgMail.send(msg);
+    res.render("welcome", {
       title: "Home",
       heading: "E-Market",
-      promotion: "10% Sale NOW",
-      nav_items: temp_category,
-      img_category: temp_category,
-      best: temp_bestseller
+      name: name
     });
   } else {
     res.render("register", {
