@@ -9,6 +9,7 @@
   },
   "author": "",
   "license": "ISC",
+  "devDependencies": {},
   "dependencies": {
     "@sendgrid/mail": "^6.5.4",
     "dotenv": "^8.2.0",
