@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
+
 const productModel = require("../models/productDB");
+
 const sgMail = require("@sendgrid/mail");
 
 //check empty object
