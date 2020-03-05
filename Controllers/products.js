@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const productModel = require("../model/productDB");
+const productModel = require("../models/productDB");
 
 router.get("/:category", (req, res) => {
   const temp_category = [],

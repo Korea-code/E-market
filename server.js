@@ -1,11 +1,10 @@
 const express = require("express");
 const exphbs = require("express-handlebars");
-
 const bodyParser = require("body-parser");
 
-const general = require("./Controller/general");
-const product = require("./Controller/product");
-const products = require("./Controller/products");
+const general = require("./Controllers/general");
+const product = require("./Controllers/product");
+const products = require("./Controllers/products");
 
 const app = express();
 
