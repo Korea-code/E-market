@@ -21,8 +21,8 @@ app.use("/", general);
 app.use("/product", product);
 app.use("/products", products);
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
-  console.log("Server is connected!!!!!!!");
+  console.log(`Server is connected!!!!!!! on ${PORT}`);
 });
