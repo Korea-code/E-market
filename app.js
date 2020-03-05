@@ -12,9 +12,9 @@ app.set("view engine", "handlebars");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const generalController = require("./Controllers/general");
-const productController = require("./Controllers/product");
-const productsController = require("./Controllers/products");
+const generalController = require("./controllers/general");
+const productController = require("./controllers/product");
+const productsController = require("./controllers/products");
 
 app.use("/", generalController);
 app.use("/product", productController);
