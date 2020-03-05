@@ -35,12 +35,22 @@ router.get("/", (req, res) => {
 });
 
 router.post("/register", (req, res) => {
+  const numNalp =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
   let errorMess = {};
   const { name, email, password, password_confirm } = req.body;
   if (name == "") errorMess.name = "Enter your name";
   if (email == "") errorMess.email = "Enter your Email";
   else if (email.search("@") == -1) errorMess.email = "Enter Email format";
   if (password == "") errorMess.password = "Enter your password";
+  else if (password.length < 6 || password.length > 15)
+    errorMess.password = "Password lengh is between 6 and 15";
+  else
+    password.split("").forEach(e => {
+      if (!numNalp.includes(e)) {
+        errorMess.password = "You can only use alphabet and number";
+      }
+    });
   if (password != password_confirm)
     errorMess.password_confirm = "Enter password correctly";
   if (isEmpty(errorMess)) {
@@ -96,11 +106,10 @@ router.get("/login", (req, res) => {
 
 router.post("/login", (req, res) => {
   let errorMess = {};
-  if (req.body.email == "") errorMess.email = "Enter your Email";
-  else if (req.body.email.search("@") == -1)
-    errorMess.email = "Enter Email format";
-  if (req.body.password == "") errorMess.password = "Enter your Password";
-
+  const { email, password } = req.body;
+  if (email == "") errorMess.email = "Enter your Email";
+  else if (email.search("@") == -1) errorMess.email = "Enter Email format";
+  if (password == "") errorMess.password = "Enter your Password";
   if (isEmpty(errorMess)) {
     const temp_category = [],
       temp_bestseller = [];

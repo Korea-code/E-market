@@ -541,6 +541,92 @@ const products = {
       subcategory: "Drink",
       bastseller: true,
       onSale: true
+    },
+    {
+      id: 47,
+      title: 'Hisense 40" Smart TV (40H5509) [Canada Version]',
+      price: 636.99,
+      description:
+        "Red Bull Sugarfree formula contains high quality ingredients, including caffeine, taurine, and B-group vitamins.",
+      image: "/img/product/81Y0Ir2QcsL._SL1500_.jpg",
+      category: "Electronics",
+      subcategory: "Television",
+      bastseller: true,
+      onSale: true
+    },
+    {
+      id: 48,
+      title: 'VIZIO D-Series™ 24” Class (23.5" Diag.) Smart TV',
+      price: 254.99,
+      description:
+        "SmartCast 3; 0: Finding great content and streaming high quality video is incredibly easy with SmartCast Home; Browse favorites like Netflix and Hulu right on the TV using the included remote or SmartCast Mobile app on your phone or tablet",
+      image: "/img/product/610hoL56MYL._SL1000_.jpg",
+      category: "Electronics",
+      subcategory: "Television",
+      bastseller: true,
+      onSale: true
+    },
+    {
+      id: 49,
+      title: 'Hisense 50" 4k Smart TV (50H7709) [Canada Version]',
+      price: 359.99,
+      description:
+        "Better picture quality: watch your favorite movies and TV shows in striking 4K resolution Immersive and detailed sound: DTS studio sound creates virtual surround sound for a crisp and immersive audio experience Better contrast: full Array backlighting adds a higher contrast range and color accuracy",
+      image: "/img/product/818kcYSwo1L._SL1500_.jpg",
+      category: "Electronics",
+      subcategory: "Television",
+      bastseller: true,
+      onSale: true
+    },
+    {
+      id: 50,
+      title:
+        'Samsung 49" M5300 1080P Full HD LED Smart TV (2018) (UN49M5300AFXZC) [Canadian Version]',
+      price: 399.99,
+      description:
+        "FHD Resolution for enhanced detail on a small screen SmartCast 3; 0: Finding great content and streaming high quality video is incredibly easy with SmartCast Home",
+      image: "/img/product/81Jh22xDElL._SL1500_.jpg",
+      category: "Electronics",
+      subcategory: "Television",
+      bastseller: true,
+      onSale: true
+    },
+    {
+      id: 51,
+      title:
+        'All-New Fire HD 10 Tablet (10.1" 1080p full HD display, 32 GB) – Black',
+      price: 199.99,
+      description:
+        '10.1" 1080p full HD display; 32 or 64 GB of internal storage (add up to 512 GB with microSD) Now 30% faster thanks to the new 2.0 GHz octa-core processor and 2 GB of RAM',
+      image: "/img/product/61-ngp6SbZL._SL1000_.jpg",
+      category: "Electronics",
+      subcategory: "Tablet",
+      bastseller: false,
+      onSale: false
+    },
+    {
+      id: 52,
+      title: "RCA 7 Inch 1GB RAM 16G Tablet MTK ",
+      price: 54.99,
+      description:
+        "Fast High Performance MTK Quad Core Processor; 1GB RAM; 16GB Storage (MicroSD Expandable up to 128GB); Front and Rear Cameras; Battery Life up to 6 Hours",
+      image: "/img/product/71awK6Utf8L._SL1500_.jpg",
+      category: "Electronics",
+      subcategory: "Tablet",
+      bastseller: false,
+      onSale: false
+    },
+    {
+      id: 53,
+      title: "Vankyo MatrixPad Z10 Tablet",
+      price: 199.99,
+      description:
+        "【High Performance Android Tablet】VANKYO MatrixPad Z10 tablet is a 10 inch Wi-Fi Android tablet with GPS capability.It is powered by a 64-bit Quad-core high-performance processor with 3GB RAM 32GB storage, delivering quick app launches, smooth games and videos, providing a superior experience of entertainment, browse, games and shopping for everyone in the family.",
+      image: "/img/product/7199m+yETeL._SL1500_.jpg",
+      category: "Electronics",
+      subcategory: "Tablet",
+      bastseller: false,
+      onSale: false
     }
   ],
   getAllProducts() {
