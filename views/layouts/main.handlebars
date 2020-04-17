@@ -22,8 +22,13 @@
             <ul class="links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/product">Products</a></li>
-                <li><a href="/register">Registration</a></li>
-                <li><a href="/login">login</a></li>
+                {{#if user}}
+                <li><a href="/user/cart">{{user.name}}'s cart</a></li>
+                <li><a href="/user/logout">logout</a></li>
+                {{else}}
+                <li><a href="/user/register">Registration</a></li>
+                <li><a href="/user/login">login</a></li>
+                {{/if}}
             </ul>
         </header>
 
