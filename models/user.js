@@ -8,11 +8,16 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    requried: true
+    requried: true,
+    unique: true
   },
   password: {
     type: String,
     requried: true
+  },
+  type: {
+    type: String,
+    defalut: "User"
   },
   createdDate: {
     type: Date,

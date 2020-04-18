@@ -3,6 +3,7 @@ const router = express.Router();
 const userModel = require("../models/user");
 const sgMail = require("@sendgrid/mail");
 const bcrypt = require("bcryptjs");
+const isAuthenticated = require("../middleware/auth");
 
 // temp
 const productModel = require("../models/productDB");
@@ -36,64 +37,55 @@ router.post("/register", (req, res) => {
   if (password != password_confirm)
     errorMess.password_confirm = "Enter password correctly";
   if (isEmpty(errorMess)) {
-    // create product list
-    const temp_category = [],
-      temp_bestseller = [];
-    const model = productModel.getAllProducts();
-    temp_category.push(model[0]);
-    model.forEach(e => {
-      if (e.bastseller && temp_bestseller.length < 8) temp_bestseller.push(e);
-      let check = true;
-      for (let i = 0; i < temp_category.length; ++i)
-        if (e.subcategory == temp_category[i].subcategory) check = false;
-      if (check) temp_category.push(e);
-    });
-
-    // send Email
-
-    const msg = {
-      to: `${email}`,
-      from: "jihyo.kim@outlook.com",
-      subject: "Wellcome to join E-market!",
-      text: "and easy to do anywhere, even with Node.js",
-      html: `<string>Hello ${name}</string>, Thanks to join our website.<br>
-        Now we are 10% sale promotion on a lot of products,<br>
-        please enjoy shopping in our website.`
-    };
-    const newUser = {
-      name,
-      email,
-      password
-    };
-    const user = new userModel(newUser);
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    sgMail
-      .send(msg)
-      .then(
-        user
-          .save()
+    userModel.findOne({ email }).then(user => {
+      if (user == null) {
+        const msg = {
+          to: `${email}`,
+          from: "jihyo.kim@outlook.com",
+          subject: "Wellcome to join E-market!",
+          text: "and easy to do anywhere, even with Node.js",
+          html: `<string>Hello ${name}</string>, Thanks to join our website.<br>
+            Now we are 10% sale promotion on a lot of products,<br>
+            please enjoy shopping in our website.`
+        };
+        const newUser = {
+          name,
+          email,
+          password,
+          type: "User"
+        };
+        const user = new userModel(newUser);
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+        sgMail
+          .send(msg)
           .then(
-            res.render("welcome", {
-              title: "Home",
-              heading: "E-Market",
-              name: name
-            })
+            user
+              .save()
+              .then(
+                res.render("welcome", {
+                  title: "Home",
+                  heading: "E-Market",
+                  name: name
+                })
+              )
+              .catch(err => console.log(`Error while create User: ${err}`))
           )
-          .catch(err => console.log(`Error while create User: ${err}`))
-      )
-      .catch(err => console.log(`Error while create User: ${err}`));
-  } else {
-    res.render("register", {
-      title: "register",
-      heading: "E-Market Register",
-      errorName: errorMess.name,
-      errorEmail: errorMess.email,
-      errorPasswd: errorMess.password,
-      errorConfirm: errorMess.password_confirm,
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      password_confirm: req.body.password_confirm
+          .catch(err => console.log(`Error while create User: ${err}`));
+      } else {
+        errorMess.email = "This email is registered.";
+        res.render("register", {
+          title: "register",
+          heading: "E-Market Register",
+          errorName: errorMess.name,
+          errorEmail: errorMess.email,
+          errorPasswd: errorMess.password,
+          errorConfirm: errorMess.password_confirm,
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password,
+          password_confirm: req.body.password_confirm
+        });
+      }
     });
   }
 });
@@ -172,14 +164,24 @@ router.get("/register", (req, res) => {
   });
 });
 
-router.get("/cart", (req, res) => {
-  if (req.session.userInfo != null) {
-    res.render("cart", {
-      title: `${req.session.userInfo.name}'s cart`,
-      heading: "E-Market Cart"
-    });
-  } else {
-    res.redirect("/user/login");
-  }
+router.get("/cart", isAuthenticated, (req, res) => {
+  res.render("cart", {
+    title: `${req.session.userInfo.name}'s cart`,
+    heading: "E-Market Cart"
+  });
 });
+
+router.get("/admin", isAuthenticated, (req, res) => {
+  res.render("admin", {
+    title: `Admin`,
+    heading: "Product Manage"
+  });
+});
+router.get("/admin/add_product", isAuthenticated, (req, res) => {
+  res.render("add_product", {
+    title: "Add Product",
+    heading: "Add Product"
+  });
+});
+
 module.exports = router;

@@ -24,11 +24,15 @@
                 <li><a href="/product">Products</a></li>
                 {{#if user}}
                 <li><a href="/user/cart">{{user.name}}'s cart</a></li>
-                <li><a href="/user/logout">logout</a></li>
+                <li><a href="/user/logout">Logout</a></li>
                 {{else}}
                 <li><a href="/user/register">Registration</a></li>
-                <li><a href="/user/login">login</a></li>
+                <li><a href="/user/login">Login</a></li>
                 {{/if}}
+                {{#comp user.type "admin"}}
+                <li><a href="/user/admin">Admin</a></li>
+                {{else}}
+                {{/comp}}
             </ul>
         </header>
 
