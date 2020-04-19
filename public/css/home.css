@@ -35,6 +35,20 @@
   color: #333;
   text-shadow: 1px 1px rgb(168, 167, 167);
 }
+.search {
+  position: relative;
+  margin-top: 20px;
+}
+.search input {
+  display: inline-block;
+  width: 80%;
+}
+.search button {
+  display: inline-block;
+}
+.search form {
+  display: flex;
+}
 .nav_items_category:hover {
   transform: scale(0.98);
   transition-duration: 0.5s;
