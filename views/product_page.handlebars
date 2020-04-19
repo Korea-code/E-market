@@ -45,13 +45,14 @@
                 <p class="nav_categroy_list">{{this.category}}</p>
             </a>
             {{/each}}
+            <div class="search">
+                <lable>Search</lable>
+                <form action="/search" method="post">
+                    <input type="text" name="word" placeholder="type name of product">
+                    <button type="submit">Go</button>
+                </form>
+            </div>
         </div>
-        <div class="search">
-            <lable>Search</lable>
-            <form action="" method="post">
-                <input type="text">
-                <button type="submit">Go</button>
-            </form>
-        </div>
+
     </div>
 </div>
