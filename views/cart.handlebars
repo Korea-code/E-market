@@ -1,80 +1,35 @@
 <link rel="stylesheet" href="/css/cart.css">
 <div class="cart_wrapper">
-    <h1>RIJEI' Cart</h1>
+    <h1>{{this.userName}}' Cart</h1>
+
     <div class="addItem">
         <div class="total">
-            <p>Price: $300</p>
+            <p>Price: ${{price}}</p>
             <p>GST</p>
-            <p>+$15</p>
+            <p>+${{GST}}</p>
             <p>Total</p>
-            <p>$315</p>
+            <p>${{total_price}}</p>
         </div>
         <a href="/"><button>Pay</button></a>
     </div>
     <div class=" cart_list_wrapper">
+        {{#each data}}
         <div class="cart_list">
-            <img class="list_img" src="/img/product/ipad_mini.png">
+            <img class="list_img" src=" {{this.image}}">
             <div class="list_content_L">
-                <div class="list_name">IPAD PRO</div>
-                <div class="list_discription">An iPad is a tablet PC designed by Apple Inc. The iPad features a
-                    9.7-inch
-                    touch screen that users can interact with directly through finger strokes. This portable device
-                    can
-                    be used
-                    for browsing the Web, listening to music, watching movies, reading e-books and playing games,
-                    among
-                    other things.
+                <div class="list_name">{{this.title}}</div>
+                <div class="list_discription">{{this.description}}
                 </div>
             </div>
             <div class="list_content_R">
-                <div class="list_price">Price:<br>$ 999.99</div>
-                <div class="list_stock">Count:<br> 1</div>
-                <button class="update">Update</button>
-                <button class="delete">Delete</button>
+                <div class="list_price">Price:<br>$ {{this.price}}</div>
+                <div class="list_stock">Quantity:<br> {{this.quantity}}</div>
+                <a href="/user/cart/delete/{{this.cartId}}?method=DELETE">
+                    <button class="delete">Delete</button>
+                </a>
             </div>
         </div>
-        <div class="cart_list">
-            <img class="list_img" src="/img/product/ipad_mini.png">
-            <div class="list_content_L">
-                <div class="list_name">IPAD PRO</div>
-                <div class="list_discription">An iPad is a tablet PC designed by Apple Inc. The iPad features a
-                    9.7-inch
-                    touch screen that users can interact with directly through finger strokes. This portable device
-                    can
-                    be used
-                    for browsing the Web, listening to music, watching movies, reading e-books and playing games,
-                    among
-                    other things.
-                </div>
-            </div>
-            <div class="list_content_R">
-                <div class="list_price">Price:<br>$ 999.99</div>
-                <div class="list_stock">Stock:<br> 12</div>
-                <button class="update">Update</button>
-                <button class="delete">Delete</button>
-            </div>
-        </div>
-        <div class="cart_list">
-            <img class="list_img" src="/img/product/ipad_mini.png">
-            <div class="list_content_L">
-                <div class="list_name">IPAD PRO</div>
-                <div class="list_discription">An iPad is a tablet PC designed by Apple Inc. The iPad features a
-                    9.7-inch
-                    touch screen that users can interact with directly through finger strokes. This portable device
-                    can
-                    be used
-                    for browsing the Web, listening to music, watching movies, reading e-books and playing games,
-                    among
-                    other things.
-                </div>
-            </div>
-            <div class="list_content_R">
-                <div class="list_price">Price:<br>$ 999.99</div>
-                <div class="list_stock">Stock:<br> 12</div>
-                <button class="update">Update</button>
-                <button class="delete">Delete</button>
-            </div>
-        </div>
+        {{/each}}
     </div>
 </div>
 

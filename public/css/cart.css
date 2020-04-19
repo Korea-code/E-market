@@ -78,14 +78,8 @@
 .list_content_R {
   width: 130px;
   margin-left: 10px;
-  line-height: 20px;
+  line-height: 25px;
   text-align: center;
-}
-.update {
-  width: 80px;
-  height: 25px;
-  border-radius: 5px;
-  background-color: rgba(243, 195, 63, 0.39);
 }
 .delete {
   width: 80px;

@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const userModel = require("../models/user");
+const productModel = require("../models/product");
+const cartModel = require("../models/cart");
 const sgMail = require("@sendgrid/mail");
 const bcrypt = require("bcryptjs");
-const isAuthenticated = require("../middleware/auth");
 
-// temp
-const productModel = require("../models/productDB");
+const isAuthenticated = require("../middleware/auth");
 
 //check empty object
 function isEmpty(obj) {
@@ -15,7 +15,6 @@ function isEmpty(obj) {
   }
   return true;
 }
-// ... temp
 
 router.post("/register", (req, res) => {
   const numNalp =
@@ -165,23 +164,160 @@ router.get("/register", (req, res) => {
 });
 
 router.get("/cart", isAuthenticated, (req, res) => {
-  res.render("cart", {
-    title: `${req.session.userInfo.name}'s cart`,
-    heading: "E-Market Cart"
-  });
+  let filteredCart = [];
+  let ori_price = 0;
+  let total_price = 0;
+
+  cartModel
+    .find({ userId: req.session.userInfo._id })
+    .then(carts => {
+      carts.forEach(async e => {
+        if (e.onSale) ori_price = e.prodPrice * 0.9;
+        else ori_price = e.prodPrice;
+        filteredCart.push({
+          cartId: e._id,
+          title: e.prodName,
+          description: e.prodDesc,
+          image: e.prodImage,
+          quantity: e.quantity,
+          price: (e.quantity * ori_price).toFixed(2)
+        });
+        total_price += e.quantity * ori_price;
+        console.log("Filtered:" + filteredCart.title);
+        console.log(total_price);
+      });
+      res.render("cart", {
+        title: `${req.session.userInfo.name}'s cart`,
+        heading: "E-Market Cart",
+        data: filteredCart,
+        price: total_price.toFixed(2),
+        userName: `${req.session.userInfo.name}`,
+        GST: (total_price * 0.13).toFixed(2),
+        total_price: (total_price * 1.13).toFixed(2)
+      });
+    })
+    .catch(err => console.log(`${err}`));
 });
 
 router.get("/admin", isAuthenticated, (req, res) => {
-  res.render("admin", {
-    title: `Admin`,
-    heading: "Product Manage"
+  const filteredProducts = [];
+  productModel.find().then(products => {
+    products.forEach(e => {
+      filteredProducts.push({
+        id: e._id,
+        title: e.title,
+        price: e.price,
+        description: e.description,
+        image: e.image,
+        category: e.category,
+        bestseller: e.bestseller,
+        onSale: e.onSale,
+        stock: e.stock
+      });
+    });
+    res.render("admin", {
+      title: `Admin`,
+      heading: "Product Manage",
+      data: filteredProducts
+    });
   });
 });
+router.delete("/admin/delete/:id", (req, res) => {
+  productModel
+    .deleteOne({ _id: req.params.id })
+    .then(() => {
+      res.redirect("/user/admin");
+    })
+    .catch(err =>
+      console.log(`Error happened when updating data from the database :${err}`)
+    );
+});
+
 router.get("/admin/add_product", isAuthenticated, (req, res) => {
   res.render("add_product", {
     title: "Add Product",
     heading: "Add Product"
   });
+});
+
+router.get("/admin/update/:id", isAuthenticated, (req, res) => {
+  productModel
+    .findOne({ _id: req.params.id })
+    .then(product => {
+      console.log(product);
+      const { title, price, description, category, stock } = product;
+      res.render("update_product", {
+        title: "Upadte Product",
+        heading: "Update Product",
+        id: req.params.id,
+        name: title,
+        price,
+        description,
+        category,
+        stock
+      });
+    })
+    .catch(err => console.log(err));
+});
+
+router.put("/admin/update/:id", isAuthenticated, (req, res) => {
+  const product = {
+    title: req.body.title,
+    description: req.body.description,
+    dueDate: req.body.dueDate,
+    status: req.body.status,
+    priority: req.body.priority
+  };
+
+  productModel
+    .updateOne({ _id: req.params.id }, product)
+    .then(() => {
+      res.redirect("/user/admin");
+    })
+    .catch(err =>
+      console.log(`Error happened when updating data from the database :${err}`)
+    );
+});
+
+router.post("/cart/:productId", isAuthenticated, (req, res) => {
+  const { quantity } = req.body;
+  productModel
+    .findOne({ _id: req.params.productId })
+    .then(prod => {
+      const newCart = {
+        userId: req.session.userInfo._id,
+        prodId: prod._id,
+        prodName: prod.title,
+        prodDesc: prod.description,
+        prodImage: prod.image,
+        onSale: prod.onSale,
+        prodPrice: prod.price,
+        quantity
+      };
+      if (prod.stock >= quantity) {
+        cart = new cartModel(newCart);
+        cart
+          .save()
+          .then(() => {
+            res.redirect("/user/cart");
+          })
+          .catch(err => console.log(`${err}`));
+      } else {
+        res.redirect(`/product/${req.params.productId}`);
+      }
+    })
+    .catch(err => console.log(`${err}`));
+});
+
+router.delete("/cart/delete/:id", (req, res) => {
+  cartModel
+    .deleteOne({ _id: req.params.id })
+    .then(() => {
+      res.redirect("/user/cart");
+    })
+    .catch(err =>
+      console.log(`Error happened when updating data from the database :${err}`)
+    );
 });
 
 module.exports = router;

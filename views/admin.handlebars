@@ -6,60 +6,22 @@
     <h1>Product Managing Page</h1>
 
     <div class="manage_list_wrapper">
+        {{#each data}}
         <div class="manage_list">
-            <img class="list_img" src="/img/product/ipad_mini.png">
+            <img class="list_img" src="{{this.image}}">
             <div class="list_content_L">
-                <div class="list_name">IPAD PRO</div>
-                <div class="list_discription">An iPad is a tablet PC designed by Apple Inc. The iPad features a 9.7-inch
-                    touch screen that users can interact with directly through finger strokes. This portable device can
-                    be used
-                    for browsing the Web, listening to music, watching movies, reading e-books and playing games, among
-                    other things.
+                <div class="list_name">{{this.title}}</div>
+                <div class="list_discription">{{this.description}}
                 </div>
             </div>
             <div class="list_content_R">
-                <div class="list_price">Price:<br>$ 999.99</div>
-                <div class="list_stock">Stock:<br> 12</div>
-                <button class="update">Update</button>
-                <button class="delete">Delete</button>
+                <div class="list_price">Price:<br>$ {{this.price}}</div>
+                <div class="list_stock">Stock:<br> {{this.stock}}</div>
+                <a href="/user/admin/update/{{this.id}}"><button class="update">Update</button></a>
+                <a href="/user/admin/delete/{{this.id}}?method=DELETE"><button class="delete">Delete</button></a>
             </div>
         </div>
-        <div class="manage_list">
-            <img class="list_img" src="/img/product/ipad_mini.png">
-            <div class="list_content_L">
-                <div class="list_name">IPAD PRO</div>
-                <div class="list_discription">An iPad is a tablet PC designed by Apple Inc. The iPad features a 9.7-inch
-                    touch screen that users can interact with directly through finger strokes. This portable device can
-                    be used
-                    for browsing the Web, listening to music, watching movies, reading e-books and playing games, among
-                    other things.
-                </div>
-            </div>
-            <div class="list_content_R">
-                <div class="list_price">Price:<br>$ 999.99</div>
-                <div class="list_stock">Stock:<br> 12</div>
-                <button class="update">Update</button>
-                <button class="delete">Delete</button>
-            </div>
-        </div>
-        <div class="manage_list">
-            <img class="list_img" src="/img/product/ipad_mini.png">
-            <div class="list_content_L">
-                <div class="list_name">IPAD PRO</div>
-                <div class="list_discription">An iPad is a tablet PC designed by Apple Inc. The iPad features a 9.7-inch
-                    touch screen that users can interact with directly through finger strokes. This portable device can
-                    be used
-                    for browsing the Web, listening to music, watching movies, reading e-books and playing games, among
-                    other things.
-                </div>
-            </div>
-            <div class="list_content_R">
-                <div class="list_price">Price:<br>$ 999.99</div>
-                <div class="list_stock">Stock:<br> 12</div>
-                <button class="update">Update</button>
-                <button class="delete">Delete</button>
-            </div>
-        </div>
+        {{/each}}
     </div>
 </div>
 

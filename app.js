@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 const session = require("express-session");
+// const categoryModel = require("./models/category");
 
 const app = express();
 
@@ -67,6 +68,11 @@ mongoose
   })
   .then(() => {
     console.log("Connected to MongoDB!!");
+    // // //DB insertion;
+    // for (let i = 0; i < fakeDB.length; ++i) {
+    //   const category = new categoryModel(fakeDB[i]);
+    //   category.save().catch(err => console.log(`${err}`));
+    // }
   })
   .catch(err => console.log(`Error while connecting to MonogoDB ${err}`));
 

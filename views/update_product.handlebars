@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="/css/add_product.css">
+<div class="add_product_wrapper">
+    <h1>Update Product</h1>
+    <div class="adding_form">
+        <form method="POST" action="/user/admin/update/{{this.id}}?method=PUT" enctype="multipart/form-data">
+            <label for="img">Image</label>
+            <input id="fileupload" type="file" name="img" id="img" /> <br><br>
+            <label for="product">Product</label>
+            <input type="text" name="product" id="product" value="{{this.name}}" /> <br><br>
+            <label for="price">Price</label>
+            <input type="number" name="price" id="price" value="{{this.price}}" /> <br><br>
+            <label id="adding_form_desc" for="discription">Discription</label>
+            <textarea name="discription" id="discription">{{description}}</textarea> <br><br>
+            <label for="category">Category</label>
+            <input type="text" name="category" id="category" value="{{this.category}}" /> <br><br>
+            <label for="bestSeller">Best Seller</label>
+            <input type="checkbox" name="bestSeller" id="bestSeller" /> <br><br>
+            <label for="onSale">On Sale</label>
+            <input type="checkbox" name="onSale" id="onSale" /> <br><br>
+            <label for="stock">Stock</label>
+            <input type="number" name="stock" id="stock" value="{{this.stock}}" /> <br><br>
+            <button type="submit">Upload Product</button>
+        </form>
+    </div>
+
+
+</div>

@@ -22,7 +22,18 @@
         <p class="product__nav__sale">CAD $ {{price}}</p>
         {{/if}}
     </div>
-    <div class="buttons"><button>Buy Right Now</button><button>Go Cart</button></div>
+    <form method="POST" action="/user/cart/{{this.id}}">
+        <div class="buttons">
+            <div class="stock">Stock : {{this.stock}}</div>
+            <label for="quantity">Quantity</label>
+            <select name="quantity">
+                {{#each this.option}}
+                <option name="quantity" value="{{this}}">{{this}}</option>
+                {{/each}}
+            </select>
+            <button type="submit">Go Cart</button>
+        </div>
+    </form>
 
 </div>
 <div class="nav_items">
@@ -30,8 +41,8 @@
         <p class="nav_items_title">Category</p>
         <div class="nav_category">
             {{#each nav_items}}
-            <a href="/products/{{this.subcategory}}">
-                <p class="nav_categroy_list">{{this.subcategory}}</p>
+            <a href="/products/{{this.category}}">
+                <p class="nav_categroy_list">{{this.category}}</p>
             </a>
             {{/each}}
         </div>

@@ -1,41 +1,60 @@
 const express = require("express");
 const router = express.Router();
-const productModel = require("../models/productDB");
+const productModel = require("../models/product");
+const categoryModel = require("../models/category");
 
 router.get("/:category", (req, res) => {
   const temp_category = [],
-    temp_model = [];
-  const model = productModel.getAllProducts();
-  if (req.params.category === "promotion") {
-    model.forEach(e => {
-      e.short = e.title.slice(0, 15);
-      if (e.onSale) temp_model.push(e);
-      let check = true;
-      for (let i = 0; i < temp_category.length; ++i)
-        if (e.subcategory == temp_category[i].subcategory) check = false;
-      if (check) temp_category.push(e);
-    });
-    res.render("products", {
-      title: "Promotion items",
-      heading: "E-Market Promotion",
-      nav_items: temp_category,
-      products: temp_model
-    });
-  } else {
-    model.forEach(e => {
-      if (req.params.category == e.subcategory) temp_model.push(e);
-      let check = true;
-      for (let i = 0; i < temp_category.length; ++i)
-        if (e.subcategory == temp_category[i].subcategory) check = false;
-      if (check) temp_category.push(e);
-    });
-    res.render("products", {
-      title: "products",
-      heading: "E-Market Product",
-      nav_items: temp_category,
-      products: temp_model
-    });
-  }
+    filteredProducts = [];
+  productModel
+    .find()
+    .then(products => {
+      products.forEach(prod => {
+        if (req.params.category === "promotion") {
+          if (prod.onSale == true)
+            filteredProducts.push({
+              id: prod._id,
+              title: prod.title,
+              price: prod.price,
+              description: prod.description,
+              image: prod.image,
+              category: prod.category,
+              bestseller: prod.bestseller,
+              onSale: prod.onSale
+            });
+        } else {
+          if (req.params.category == prod.category)
+            filteredProducts.push({
+              id: prod._id,
+              title: prod.title,
+              price: prod.price,
+              description: prod.description,
+              image: prod.image,
+              category: prod.category,
+              bestseller: prod.bestseller,
+              onSale: prod.onSale
+            });
+        }
+      });
+
+      categoryModel
+        .find()
+        .then(categories => {
+          categories.forEach(e => {
+            temp_category.push({
+              category: e.category
+            });
+          });
+          res.render("products", {
+            title: "Promotion items",
+            heading: "E-Market Promotion",
+            nav_items: temp_category,
+            products: filteredProducts
+          });
+        })
+        .catch(err => console.log(`${err}`));
+    })
+    .catch(err => console.log(`${err}`));
 });
 
 module.exports = router;
