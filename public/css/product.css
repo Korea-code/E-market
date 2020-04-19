@@ -42,7 +42,20 @@
   margin: 20px 10px;
   display: block;
 }
-
+.search {
+  position: relative;
+  margin-top: 20px;
+}
+.search input {
+  display: inline-block;
+  width: 80%;
+}
+.search button {
+  display: inline-block;
+}
+.search form {
+  display: flex;
+}
 .products_wrapper {
   border-radius: 10px;
   display: grid;

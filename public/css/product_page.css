@@ -39,7 +39,20 @@
   margin: 20px 10px;
   display: block;
 }
-
+.search {
+  position: relative;
+  margin-top: 20px;
+}
+.search input {
+  display: inline-block;
+  width: 80%;
+}
+.search button {
+  display: inline-block;
+}
+.search form {
+  display: flex;
+}
 .product__img {
   float: right;
   padding: 20px;
