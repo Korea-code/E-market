@@ -243,7 +243,7 @@ router.post("/admin/add_product", isAuthenticated, (req, res) => {
   const {
     prodname,
     price,
-    description,
+    descriprption,
     category,
     bestseller,
     onSale,
@@ -253,7 +253,7 @@ router.post("/admin/add_product", isAuthenticated, (req, res) => {
   const newProduct = {
     title: prodname,
     price,
-    description,
+    descriprption,
     image: "temp.jpg",
     category: category,
     bestseller: bestseller == null ? false : true,
@@ -332,7 +332,7 @@ router.put("/admin/update/:id", isAuthenticated, (req, res) => {
         .update({
           title: prodname,
           price,
-          description,
+          descriprption,
           image: `/img/product/${req.files.productPic.name}`,
           category: category,
           bestseller: bestseller == null ? false : true,
@@ -357,5 +357,33 @@ router.delete("/cart/delete/:id", (req, res) => {
       console.log(`Error happened when updating data from the database :${err}`)
     );
 });
-
+router.post("/cart/:productId", isAuthenticated, (req, res) => {
+  const { quantity } = req.body;
+  productModel
+    .findOne({ _id: req.params.productId })
+    .then(prod => {
+      const newCart = {
+        userId: req.session.userInfo._id,
+        prodId: prod._id,
+        prodName: prod.title,
+        prodDesc: prod.description,
+        prodImage: prod.image,
+        onSale: prod.onSale,
+        prodPrice: prod.price,
+        quantity
+      };
+      if (prod.stock >= quantity) {
+        cart = new cartModel(newCart);
+        cart
+          .save()
+          .then(() => {
+            res.redirect("/user/cart");
+          })
+          .catch(err => console.log(`${err}`));
+      } else {
+        res.redirect(`/product/${req.params.productId}`);
+      }
+    })
+    .catch(err => console.log(`${err}`));
+});
 module.exports = router;
