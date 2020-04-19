@@ -5,6 +5,7 @@ const productModel = require("../models/product");
 const cartModel = require("../models/cart");
 const sgMail = require("@sendgrid/mail");
 const bcrypt = require("bcryptjs");
+const path = require("path");
 
 const isAuthenticated = require("../middleware/auth");
 
@@ -108,7 +109,7 @@ router.post("/login", (req, res) => {
       .then(user => {
         console.log(user);
         if (user == null) {
-          errorMess.email = "Email address was not registered";
+          errorMess.email = "Email ress was not registered";
           res.render("login", {
             title: "login",
             heading: "E-Market Login",
@@ -232,19 +233,61 @@ router.delete("/admin/delete/:id", (req, res) => {
       console.log(`Error happened when updating data from the database :${err}`)
     );
 });
-
 router.get("/admin/add_product", isAuthenticated, (req, res) => {
   res.render("add_product", {
-    title: "Add Product",
-    heading: "Add Product"
+    title: `Admin | Add Product`,
+    heading: "Product Manage"
   });
+});
+router.post("/admin/add_product", isAuthenticated, (req, res) => {
+  const {
+    prodname,
+    price,
+    description,
+    category,
+    bestseller,
+    onSale,
+    stock
+  } = req.body;
+
+  const newProduct = {
+    title: prodname,
+    price,
+    description,
+    image: "temp.jpg",
+    category: category,
+    bestseller: bestseller == null ? false : true,
+    onSale: onSale == "1" ? true : false,
+    stock
+  };
+  const product = productModel(newProduct);
+  product
+    .save()
+    .then(prod => {
+      req.files.productPic
+        .mv(`public/img/product/${req.files.productPic.name}`)
+        .then(() => {
+          productModel
+            .updateOne(
+              { _id: prod._id },
+              {
+                image: `/img/product/${req.files.productPic.name}`
+              }
+            )
+            .then(() => {
+              res.redirect("/user/admin");
+            })
+            .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
+    })
+    .catch(err => console.log(err));
 });
 
 router.get("/admin/update/:id", isAuthenticated, (req, res) => {
   productModel
     .findOne({ _id: req.params.id })
     .then(product => {
-      console.log(product);
       const { title, price, description, category, stock } = product;
       res.render("update_product", {
         title: "Upadte Product",
@@ -261,52 +304,47 @@ router.get("/admin/update/:id", isAuthenticated, (req, res) => {
 });
 
 router.put("/admin/update/:id", isAuthenticated, (req, res) => {
-  const product = {
-    title: req.body.title,
-    description: req.body.description,
-    dueDate: req.body.dueDate,
-    status: req.body.status,
-    priority: req.body.priority
+  const {
+    prodname,
+    price,
+    description,
+    category,
+    bestseller,
+    onSale,
+    stock
+  } = req.body;
+
+  const newProduct = {
+    title: prodname,
+    price,
+    description,
+    image: "temp.jpg",
+    category: category,
+    bestseller: bestseller == null ? false : true,
+    onSale: onSale == "1" ? true : false,
+    stock
   };
-
-  productModel
-    .updateOne({ _id: req.params.id }, product)
+  req.files.productPic
+    .mv(`public/img/product/${req.files.productPic.name}`)
     .then(() => {
-      res.redirect("/user/admin");
+      productModel
+        .find({ _id: req.params.id })
+        .update({
+          title: prodname,
+          price,
+          description,
+          image: `/img/product/${req.files.productPic.name}`,
+          category: category,
+          bestseller: bestseller == null ? false : true,
+          onSale: onSale == "1" ? true : false,
+          stock
+        })
+        .then(() => {
+          res.redirect("/user/admin");
+        })
+        .catch(err => console.log(err));
     })
-    .catch(err =>
-      console.log(`Error happened when updating data from the database :${err}`)
-    );
-});
-
-router.post("/cart/:productId", isAuthenticated, (req, res) => {
-  const { quantity } = req.body;
-  productModel
-    .findOne({ _id: req.params.productId })
-    .then(prod => {
-      const newCart = {
-        userId: req.session.userInfo._id,
-        prodId: prod._id,
-        prodName: prod.title,
-        prodDesc: prod.description,
-        prodImage: prod.image,
-        onSale: prod.onSale,
-        prodPrice: prod.price,
-        quantity
-      };
-      if (prod.stock >= quantity) {
-        cart = new cartModel(newCart);
-        cart
-          .save()
-          .then(() => {
-            res.redirect("/user/cart");
-          })
-          .catch(err => console.log(`${err}`));
-      } else {
-        res.redirect(`/product/${req.params.productId}`);
-      }
-    })
-    .catch(err => console.log(`${err}`));
+    .catch(err => console.log(err));
 });
 
 router.delete("/cart/delete/:id", (req, res) => {
